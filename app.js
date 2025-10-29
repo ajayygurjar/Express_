@@ -1,17 +1,20 @@
 const express = require("express");
 let port = 4000;
 const app = express();
-const studentRouter = require("./routes/students");
-const courseRouter = require("./routes/courses");
+
+const usersRouter=require('./routes/EcommerceStartup/users')
+const cartRouter=require('./routes/EcommerceStartup/cart');
+const productsRouter=require('./routes/EcommerceStartup/products');
 
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Welcome to the Student & Course Portal API!");
+  res.send("Welcome to the Ecommerce");
 });
 
-app.use("/students", studentRouter);
-app.use("/courses", courseRouter);
+app.use("/products", productsRouter);
+app.use("/users", usersRouter);
+app.use('/cart',cartRouter);
 
 app.use((req, res) => {
   res.status(404).send("Page not found");
