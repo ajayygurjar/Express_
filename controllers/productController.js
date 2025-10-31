@@ -1,24 +1,45 @@
 const productService = require("../services/productService");
-const path=require('path')
+const path = require("path");
+const { sendErrorResponse } = require("../utils/response");
 
-const getProducts = (req, res) => {
-//   const result = productService.getAllProducts();
-//   res.send(result);
-res.sendFile(path.join(__dirname,"..","view","product.html"))
+const getProducts = (req, res, next) => {
+  try {
+    res.sendFile(path.join(__dirname, "..", "view", "product.html"));
+  } catch (error) {
+    error.statusCode = 500;
+    next(error);
+  }
 };
 
-const getProductById = (req, res) => {
-  const productId = req.params.id;
-  const result = productService.getProductById(productId);
-  res.send(result);
+const getProductById = (req, res,next) => {
+  try {
+    const productId = req.params.id;
+
+    if (productId>10) {
+      const error = new Error(`Product ID is required`);
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const result = productService.getProductById(productId);
+    res.send(result);
+  } catch (error) {
+    next(error)
+  }
 };
 
-const postProducts = (req, res) => {
-//   const result = productService.addProduct();
-//   res.send(result);
-const data=req.body;
-
-  res.json({value:data.productName})
+const postProducts = (req, res, next) => {
+  try {
+    const data = req.body;
+    if (!data.productName) {
+      const error = new Error("Product name is required");
+      error.statusCode = 400;
+      throw error;
+    }
+    res.json({ message: `Added product: ${data.productName}` });
+  } catch (error) {
+    next(error);
+  }
 };
 
 const editProducts = (req, res) => {
