@@ -2,9 +2,9 @@ const express = require("express")
 let port = 4000;
 const app = express();
 
-const usersRouter=require('./routes/EcommerceStartup/users')
-const cartRouter=require('./routes/EcommerceStartup/cart');
-const productsRouter=require('./routes/EcommerceStartup/products');
+const usersRouter=require('./routes/users')
+const cartRouter=require('./routes/cart');
+const productsRouter=require('./routes/productRoutes');
 
 app.use(express.json());
 
